@@ -46,7 +46,7 @@ help: # list all make commands
         # get the command's comment from Makefile \
         grep "^$${COMMAND}:" Makefile | sed --expression="s/.*# //"; \
         # get the command's comment from .env \
-        grep "^COMMAND_$${COMMAND}=" .env | sed --expression="s/.*# //"; \
+        grep "^COMMAND_$${COMMAND}=" .env 2>/dev/null | sed --expression="s/.*# //"; \
       done \
     | # format the output nicely into two columns \
     column --table --table-columns-limit 2
