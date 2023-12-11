@@ -51,6 +51,8 @@ help: # list all make commands
     | # format the output nicely into two columns \
     column --table --table-columns-limit 2
 
+# define docker compose commands if docker-compose.yml exists
+ifeq (docker-compose.yml, $(shell ls docker-compose.yml 2>/dev/null))
 docker-compose-build: # run docker compose build
 > $(DOCKER_COMPOSE) build
 
@@ -59,6 +61,7 @@ docker-compose-down: # run docker compose down
 
 docker-compose-up: # run docker compose up
 > $(DOCKER_COMPOSE) up
+endif
 
 # define the custom commands from .env, without the 'COMMAND_' prefix
 # eval takes its argument and evaluates it as makefile syntax
