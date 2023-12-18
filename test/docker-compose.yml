@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    image: localhost/makefile-env-commands
+    volumes:
+      - ..:/app
+    working_dir: /app
