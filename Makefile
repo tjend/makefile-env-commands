@@ -3,9 +3,9 @@
 # allow docker compose to be overridden, eg to use old docker-compose
 DOCKER_COMPOSE := docker compose
 
-# expose GID/UID as makefile variables
-GID := $(shell id --group)
-UID := $(shell id --user)
+# expose user and group IDs as makefile variables
+GROUP_ID := $(shell id -g)
+USER_ID := $(shell id -u)
 
 # get variables from .env
 -include .env
