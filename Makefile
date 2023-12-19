@@ -66,11 +66,12 @@ endif
 # define the custom commands from .env, without the 'COMMAND_' prefix
 # eval takes its argument and evaluates it as makefile syntax
 # .PHONY ensures make always runs the commands
+# we pass the command through echo to handle quotes
 # example output:
 #   .PHONY: test
 #   test:
 #   > echo "test"
 $(foreach COMMAND, $(ENV_COMMANDS), \
   $(eval .PHONY: $(patsubst COMMAND_%,%,$(COMMAND))$(\n) \
-  $(patsubst COMMAND_%,%,$(COMMAND)):$(\n)> $($(COMMAND))) \
+  $(patsubst COMMAND_%,%,$(COMMAND)):$(\n)> $(shell echo "$($(COMMAND))")) \
 )

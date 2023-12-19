@@ -10,8 +10,11 @@ Define your commands along with comments in `.env`.
 
 ```shell
 # define commands by prefixing the name with 'COMMAND_'
-COMMAND_test=echo 'hello test' # test command comment
-COMMAND_world=echo 'hello world' # world command comment
+COMMAND_hello_world=echo 'hello world' # echo hello world
+
+# quoting the command is an option
+# use \" within the command to escape an actual quote
+COMMAND_quoted_command="echo 'this command is \"quoted\" in .env using double quotes'" # quoted command
 ```
 
 There is no need to learn/understand Makefile syntax.
@@ -25,20 +28,16 @@ Copy the Makefile into your project and you're good to go.
 Running `make` shows the available commands along with their comments.
 
 ```shell
-docker-compose-build:  run docker-compose build
-docker-compose-down:   run docker-compose down
-docker-compose-up:     run docker-compose up
-help:                  list all make commands
-test:                  test command comment
-world:                 world command comment
+hello_world:     echo hello world
+help:            list all make commands
+quoted_command:  quoted command
 ```
 
 If you've got tab-completion configured, this will work as expected showing your commands.
 
 ```shell
 $ make <TAB><TAB>
-docker-compose-build  docker-compose-up     test
-docker-compose-down   help                  world
+hello_world     help            quoted_command
 ```
 
 ## Run your make command
@@ -46,7 +45,7 @@ docker-compose-down   help                  world
 Running your command will firstly echo the command to be run, followed by the output from running the command.
 
 ```shell
-$ make test
-echo 'hello test'
-hello test
+$ make hello_world
+echo 'hello world'
+hello world
 ```
