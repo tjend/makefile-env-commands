@@ -46,7 +46,7 @@ help: # list all make commands
         # get the command's comment from Makefile \
         grep "^$${COMMAND}:" Makefile | sed --expression="s/.*# //"; \
         # get the command's comment from .env \
-        grep "^COMMAND_$${COMMAND}=" .env 2>/dev/null | sed --expression="s/.*# //"; \
+        grep "^COMMAND_$${COMMAND}=" .env 2>/dev/null | sed --expression='s/.*# //' --expression='s/} \\$$//'; \
       done \
     | # format the output nicely into two columns \
     column --table --table-columns-limit 2
@@ -66,12 +66,12 @@ endif
 # define the custom commands from .env, without the 'COMMAND_' prefix
 # eval takes its argument and evaluates it as makefile syntax
 # .PHONY ensures make always runs the commands
-# we pass the command through echo to handle quotes
+# we pass the command through the value function to minimise expanding the command, but a secondary expansion still occurs meaning we need to know make syntax in the .env (eg $${VAR} for bash variables)
 # example output:
 #   .PHONY: test
 #   test:
 #   > echo "test"
 $(foreach COMMAND, $(ENV_COMMANDS), \
   $(eval .PHONY: $(patsubst COMMAND_%,%,$(COMMAND))$(\n) \
-  $(patsubst COMMAND_%,%,$(COMMAND)):$(\n)> $(shell echo "$($(COMMAND))")) \
+  $(patsubst COMMAND_%,%,$(COMMAND)):$(\n)> $(value $(COMMAND))) \
 )
